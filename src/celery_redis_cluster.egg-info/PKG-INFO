@@ -1,6 +1,6 @@
 Metadata-Version: 2.2
 Name: celery-redis-cluster
-Version: 0.1.2
+Version: 0.1.5
 Summary: A Redis Cluster backend for Celery
 Home-page: https://github.com/lan17/celery-redis-cluster
 Author: Lev Neiman
