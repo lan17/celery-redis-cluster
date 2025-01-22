@@ -1,0 +1,11 @@
+LICENSE
+README.md
+pyproject.toml
+setup.py
+src/celery_redis_cluster.egg-info/PKG-INFO
+src/celery_redis_cluster.egg-info/SOURCES.txt
+src/celery_redis_cluster.egg-info/dependency_links.txt
+src/celery_redis_cluster.egg-info/requires.txt
+src/celery_redis_cluster.egg-info/top_level.txt
+src/celery_redis_cluster_backend/__init__.py
+src/celery_redis_cluster_backend/backend.py

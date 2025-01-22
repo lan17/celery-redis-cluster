@@ -1,3 +1,33 @@
+Metadata-Version: 2.2
+Name: celery-redis-cluster
+Version: 0.1.2
+Summary: A Redis Cluster backend for Celery
+Home-page: https://github.com/lan17/celery-redis-cluster
+Author: Lev Neiman
+Author-email: lev.neiman@gmail.com
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: celery>=5.3.0
+Requires-Dist: redis>=4.5.0
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
 # Celery Redis Cluster
 
 A Redis Cluster backend implementation for Celery. This package extends Celery's Redis backend to work with Redis Cluster, providing better scalability and high availability through Redis Cluster's sharding and replication capabilities.
