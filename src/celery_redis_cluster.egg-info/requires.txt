@@ -1,2 +1,5 @@
 celery>=5.3.0
 redis>=4.5.0
+
+[dev]
+pytest>=6.0.0

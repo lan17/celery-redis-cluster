@@ -1,6 +1,6 @@
 Metadata-Version: 2.2
 Name: celery-redis-cluster
-Version: 0.1.5
+Version: 0.1.7
 Summary: A Redis Cluster backend for Celery
 Home-page: https://github.com/lan17/celery-redis-cluster
 Author: Lev Neiman
@@ -18,12 +18,15 @@ Description-Content-Type: text/markdown
 License-File: LICENSE
 Requires-Dist: celery>=5.3.0
 Requires-Dist: redis>=4.5.0
+Provides-Extra: dev
+Requires-Dist: pytest>=6.0.0; extra == "dev"
 Dynamic: author
 Dynamic: author-email
 Dynamic: classifier
 Dynamic: description
 Dynamic: description-content-type
 Dynamic: home-page
+Dynamic: provides-extra
 Dynamic: requires-dist
 Dynamic: requires-python
 Dynamic: summary
@@ -44,6 +47,11 @@ To use the Redis Cluster backend in your Celery application:
 
 ```python
 from celery import Celery
+
+from celery_redis_cluster_backend import install_redis_cluster_backend
+
+# Registers with celery backends
+install_redis_cluster_backend()
 
 app = Celery('your_app',
              broker='redis://localhost:6379/0',
