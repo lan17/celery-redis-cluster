@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="celery-redis-cluster",
-    version="0.1.8",
+    version="0.1.9",
     packages=find_packages(where="src"),
     package_dir={"": "src"},
     install_requires=[
@@ -15,8 +15,9 @@ setup(
         ],
     },
     entry_points={
-        'celery.backends': [
-            'rediscluster = celery_redis_cluster_backend.backend:RedisClusterBackend'
+        "celery.backends": [
+            "redis = celery_redis_cluster_backend.backend:choose_redis_backend",
+            "rediss = celery_redis_cluster_backend.backend:choose_rediss_backend",
         ]
     },
     author="Lev Neiman",

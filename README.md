@@ -8,6 +8,10 @@ A Redis Cluster backend implementation for Celery. This package extends Celery's
 pip install celery-redis-cluster
 ```
 
+After installation new backends are automatically registered with Celery:
+- `redis+cluster`
+- `rediss+cluster`
+
 ## Usage
 
 To use the Redis Cluster backend in your Celery application:
@@ -22,7 +26,7 @@ install_redis_cluster_backend()
 
 app = Celery('your_app',
              broker='redis://localhost:6379/0',
-             backend='rediscluster://localhost:6379/0')
+             backend='redis+cluster://localhost:6379/0')
 ```
 
 ### Configuration
@@ -31,7 +35,7 @@ The backend inherits all configuration options from Celery's Redis backend, with
 
 ```python
 app.conf.update(
-    result_backend='rediscluster://localhost:6379/0',
+    result_backend='redis+cluster://localhost:6379/0',
     redis_backend_use_ssl={
         'ssl_cert_reqs': None,
         'ssl_ca_certs': None,
