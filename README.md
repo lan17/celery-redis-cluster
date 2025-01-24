@@ -21,8 +21,6 @@ from celery import Celery
 
 from celery_redis_cluster_backend import install_redis_cluster_backend
 
-# Registers with celery backends
-install_redis_cluster_backend()
 
 app = Celery('your_app',
              broker='redis://localhost:6379/0',
