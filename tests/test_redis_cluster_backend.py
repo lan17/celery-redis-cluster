@@ -44,5 +44,29 @@ def test_redis_cluster_backend_installation(protocol, expected_backend):
     )
 
 
+def test_redis_cluster_backend_startup_nodes():
+    install_redis_cluster_backend()
+
+    app = Celery(
+        "test_app",
+        broker="redis://localhost:6379/0",
+        backend="redis+cluster://localhost:6379",
+        result_backend="redis+cluster://localhost:6379",
+        result_backend_transport_options={
+            "startup_nodes": [{"host": "localhost", "port": 6379}],
+            "username": "foo@bar.com",
+            "password": "secret",
+        },
+    )
+
+    backend = app.backend
+    assert isinstance(backend, RedisClusterBackend)
+
+    assert "foo@bar.com" == backend.connparams["username"]
+    assert "secret" == backend.connparams["password"]
+
+    assert 1 == len(app.backend.connparams["startup_nodes"])
+
+
 if __name__ == "__main__":
     pytest.main()

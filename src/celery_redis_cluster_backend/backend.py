@@ -4,7 +4,7 @@ import functools
 from typing import Any
 
 from celery.backends.redis import RedisBackend
-from redis.cluster import RedisCluster
+from redis.cluster import RedisCluster, ClusterNode
 from redis.exceptions import RedisClusterException
 
 
@@ -41,6 +41,24 @@ class RedisClusterBackend(RedisBackend):
         # RedisCluster uses its own connection pool, so we just create a singleton connection here
         # and return it when client is requested.
         del self.connparams["db"]  # RedisCluster does not take in 'db' param
+        if "app" in kwargs:
+            # Try to get startup_nodes if present in app config.
+            transport_options = kwargs["app"].conf.get(
+                "result_backend_transport_options", {}
+            )
+            self.connparams["startup_nodes"] = transport_options.get(
+                "startup_nodes", None
+            )
+            if self.connparams["startup_nodes"]:
+                self.connparams["startup_nodes"] = [
+                    ClusterNode(**node) for node in self.connparams["startup_nodes"]
+                ]
+
+            # Try to get username/password if present in app config.
+            self.connparams["username"] = transport_options.get("username", None)
+            self.connparams["password"] = transport_options.get("password", None)
+        else:
+            self.startup_nodes = None
 
     @functools.lru_cache
     def create_redis_cluster(self) -> RedisCluster:
