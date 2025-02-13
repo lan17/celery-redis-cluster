@@ -55,8 +55,10 @@ class RedisClusterBackend(RedisBackend):
                 ]
 
             # Try to get username/password if present in app config.
-            self.connparams["username"] = transport_options.get("username", None)
-            self.connparams["password"] = transport_options.get("password", None)
+            if not self.connparams.get("username", None):
+                self.connparams["username"] = transport_options.get("username", None)
+            if not self.connparams.get("password", None):
+                self.connparams["password"] = transport_options.get("password", None)
         else:
             self.startup_nodes = None
 

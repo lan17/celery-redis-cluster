@@ -50,8 +50,11 @@ def test_redis_cluster_backend_startup_nodes():
     app = Celery(
         "test_app",
         broker="redis://localhost:6379/0",
-        backend="redis+cluster://localhost:6379",
-        result_backend="redis+cluster://localhost:6379",
+        backend="redis+cluster://:@localhost:6379",
+        redis_max_connections=100,
+        redis_socket_timeout=1,
+        redis_socket_connect_timeout=1,
+        redis_retry_on_timeout=True,
         result_backend_transport_options={
             "startup_nodes": [{"host": "localhost", "port": 6379}],
             "username": "foo@bar.com",
@@ -66,6 +69,26 @@ def test_redis_cluster_backend_startup_nodes():
     assert "secret" == backend.connparams["password"]
 
     assert 1 == len(app.backend.connparams["startup_nodes"])
+
+
+def test_redis_cluster_backend_no_startup_nodes():
+    install_redis_cluster_backend()
+
+    app = Celery(
+        "test_app",
+        broker="redis://localhost:6379/0",
+        backend="redis+cluster://foo:password@localhost:6379",
+        redis_max_connections=100,
+        redis_socket_timeout=1,
+        redis_socket_connect_timeout=1,
+        redis_retry_on_timeout=True,
+    )
+
+    backend = app.backend
+    assert isinstance(backend, RedisClusterBackend)
+
+    assert "foo" == backend.connparams["username"]
+    assert "password" == backend.connparams["password"]
 
 
 if __name__ == "__main__":
