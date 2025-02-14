@@ -2,12 +2,12 @@ from setuptools import setup, find_packages
 
 setup(
     name="celery-redis-cluster",
-    version="0.2.1",
+    version="0.2.2",
     packages=find_packages(where="src"),
     package_dir={"": "src"},
     install_requires=[
         "celery>=5.3.0",
-        "redis>=4.5.0",
+        "redis>=5.2.1",
     ],
     extras_require={
         "dev": [
