@@ -1,6 +1,7 @@
 """Redis Cluster backend for Celery."""
 
 import functools
+from copy import copy
 from typing import Any
 
 from celery.backends.redis import RedisBackend
@@ -43,8 +44,8 @@ class RedisClusterBackend(RedisBackend):
         del self.connparams["db"]  # RedisCluster does not take in 'db' param
         if "app" in kwargs:
             # Try to get startup_nodes if present in app config.
-            transport_options = kwargs["app"].conf.get(
-                "result_backend_transport_options", {}
+            transport_options = copy(
+                kwargs["app"].conf.get("result_backend_transport_options", {})
             )
             self.connparams["startup_nodes"] = transport_options.get(
                 "startup_nodes", None
@@ -54,11 +55,14 @@ class RedisClusterBackend(RedisBackend):
                     ClusterNode(**node) for node in self.connparams["startup_nodes"]
                 ]
 
-            # Try to get username/password if present in app config.
-            if not self.connparams.get("username", None):
-                self.connparams["username"] = transport_options.get("username", None)
-            if not self.connparams.get("password", None):
-                self.connparams["password"] = transport_options.get("password", None)
+            # Remove startup nodes from transport options so that we can just pass rest of transport options to connparams
+            try:
+                del transport_options["startup_nodes"]
+            except KeyError:
+                pass
+
+            # Dump rest of transport_options directly into the connparams
+            self.connparams.update(transport_options)
         else:
             self.startup_nodes = None
 

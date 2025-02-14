@@ -57,6 +57,7 @@ def test_redis_cluster_backend_startup_nodes():
         redis_retry_on_timeout=True,
         result_backend_transport_options={
             "startup_nodes": [{"host": "localhost", "port": 6379}],
+            "dynamic_startup_nodes": False,
             "username": "foo@bar.com",
             "password": "secret",
         },
@@ -69,6 +70,8 @@ def test_redis_cluster_backend_startup_nodes():
     assert "secret" == backend.connparams["password"]
 
     assert 1 == len(app.backend.connparams["startup_nodes"])
+
+    assert not app.backend.connparams["dynamic_startup_nodes"]
 
 
 def test_redis_cluster_backend_no_startup_nodes():
