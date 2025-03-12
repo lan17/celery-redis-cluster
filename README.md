@@ -19,9 +19,6 @@ To use the Redis Cluster backend in your Celery application:
 ```python
 from celery import Celery
 
-from celery_redis_cluster_backend import install_redis_cluster_backend
-
-
 app = Celery('your_app',
              broker='redis://localhost:6379/0',
              backend='redis+cluster://localhost:6379/0')
